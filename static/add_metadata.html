@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        /* Your CSS styles here */
+        #con {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        #con2 {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            padding-top: 30px;
+        }
+
+        #logo {
+            float: right;
+            margin: 5px;
+        }
+
+        #par {
+            text-align: justify;
+            font-size: 20px;
+            font:
+        }
+
+        #footer {
+            text-align: center;
+        }
+
+        .bn49 {
+            border: 0;
+            text-align: center;
+            display: inline-block;
+            padding: 14px;
+            width: 30%;
+            margin: 10px;
+            color: #000000;
+            background-color: #87CEEB;
+            border-radius: 10px;
+            font-family: "proxima-nova-soft", sans-serif;
+            font-weight: 600;
+            text-decoration: none;
+            transition: box-shadow 200ms ease-out;
+        }
+
+        table {
+            border: 1px solid black; /* Set the border to black */
+            border-collapse: collapse; /* Collapse the borders into a single border line */
+        }
+
+        th, td {
+            border: 1px solid black; /* Set the border for table headers and table data cells */
+            padding: 8px; /* Add padding to cells for better spacing */
+        }
+
+        /* Additional styling for the tables */
+        table {
+            width: 60%;
+        }
+
+        th, td {
+            text-align: left;
+        }
+
+        td {
+            padding: 5px;
+        }
+
+        #confirmation-section {
+            display: none;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        #confirmation-section button {
+            margin: 5px;
+        }
+    </style>
+    <title>Add more metadata fields</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+      $(document).ready(function () {
+          // Display the confirmation message on form submission
+          $("#metadataForm").submit(function (e) {
+              e.preventDefault();
+              showConfirmation();
+          });
+
+          // Handle the form submission after confirmation
+          $(document).on("click", "#confirmSubmit", function () {
+              submitGraph();
+          });
+
+          // Handle canceling the submission
+          $(document).on("click", "#cancelSubmit", function () {
+              $("#confirmation-section").hide();
+          });
+      });
+
+      function showConfirmation() {
+          var filledFields = getFilledFields();
+          var confirmationHtml = "<h4>Please review the metadata fields you have inserted:</h4><ul>";
+
+          for (var i = 0; i < filledFields.length; i++) {
+              confirmationHtml += "<li>" + filledFields[i].label + ": " + filledFields[i].value + "</li>";
+          }
+
+          confirmationHtml += "</ul>";
+
+          confirmationHtml += "<h4>Choose the presentation format you prefer:</h4>";
+          confirmationHtml += "<input type='radio' name='metadataFormat' value='namedGraph' checked> Named Graph";
+          confirmationHtml += "<input type='radio' name='metadataFormat' value='rdfStar'> RDF-Star";
+          confirmationHtml += "<input type='radio' name='metadataFormat' value='both'> Both";
+          confirmationHtml += "<br>";
+          confirmationHtml += "<button  id='confirmSubmit'>Submit</button>";
+          confirmationHtml += "<button id='cancelSubmit'>Cancel</button>";
+
+          $("#confirmation-section").html(confirmationHtml);
+          $("#confirmation-section").show();
+      }
+
+      function submitGraph() {
+          var metadataFormat = $("input[name='metadataFormat']:checked").val();
+          var filledFields = getFilledFields();
+
+          if (metadataFormat === 'namedGraph') {
+              // Implement logic to submit as a named graph
+              $("#metadataForm")[0].submit(); // This line submits the form
+          } else if (metadataFormat === 'rdfStar') {
+              // Implement logic to embed using RDF-Star
+              alert("Embed the following data using RDF-Star:\n" + JSON.stringify(filledFields, null, 2));
+              // Optionally, you can submit the form here if needed
+          } else if (metadataFormat === 'both') {
+              // Implement logic to submit as both named graph and RDF-Star
+              $("#metadataForm")[0].submit(); // This line submits the form
+              alert("Embed the following data using RDF-Star:\n" + JSON.stringify(filledFields, null, 2));
+          }
+
+          // Reset the form or redirect to another page after submission
+          // $("#metadataForm")[0].reset();
+          $("#confirmation-section").hide();
+      }
+
+      function getFilledFields() {
+          var filledFields = [];
+
+          $(".metadata-section :input").each(function () {
+              var label = $("label[for='" + this.id + "']").text();
+              var value = $(this).val();
+
+              if (value !== "") {
+                  filledFields.push({ label: label, value: value });
+              }
+          });
+
+          return filledFields;
+      }
+  </script>
+
+</head>
+
+<body>
+    <div id="con">
+        <img id="bannner" src="https://firstwebsite--sarah-alzahrani.repl.co/static/banner.jpg" height="200"
+            width="750">
+        <h2>Add More metadata fields</h2>
+        <br>
+        <div class="square">
+            <form action="/submit_metadata" method="post" id="metadataForm">
+                <input type="hidden" name="file_name" value="{{ file_name }}">
+                <input type="hidden" name="uploaded_file_name" value="{{ uploaded_file_name }}">
+                <input type="hidden" name="reference_formulation" value="{{ reference_formulation }}">
+
+                <!-- Stakeholder Metadata Section -->
+                <div class="metadata-section">
+                    <h4>Stakeholder Metadata</h4>
+                    <table>
+                        <tr>
+                            <td><label for="fname">Stakeholder's Human Readable Name (first name)</label></td>
+                            <td><input type="text" id="fname" name="fname"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="lname">Stakeholder's Human Readable Name (last name)</label></td>
+                            <td><input type="text" id="lname" name="lname"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="organization">Stakeholder's organization</label></td>
+                            <td><input type="text" id="organization" name="organization"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Input File Metadata Section -->
+                <div class="metadata-section">
+                    <h4>Input file Metadata (Mapped File)</h4>
+                    <table>
+                        <tr>
+                            <td><label for="InputURI">Input URI </label></td>
+                            <td><input type="text" id="InputURI" name="InputURI"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="InputCreator">Input Creator </label></td>
+                            <td><input type="text" id="InputSource" name="InputSource"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Mapping Metadata Section -->
+                <div class="metadata-section">
+                    <h4>Mapping Metadata</h4>
+                    <table>
+                        <tr>
+                            <td><label for="StartDate"> Development starting date</label></td>
+                            <td><input type="date" id="StartDate" name="StartDate"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="EndDate"> Development End date</label></td>
+                            <td><input type="date" id="EndDate" name="EndDate"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="Tool">Tool used</label></td>
+                            <td><input type="text" id="Tool" name="Tool"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="MappingMethod">Mapping Method</label></td>
+                            <td>
+                                <select name="MappingMethod" id="MappingMethod">
+                                    <option value="Manual">Manual</option>
+                                    <option value="Automatic">Automatic (using tool)</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="MappingType">Mapping Type</label></td>
+                            <td><input type="text" id="MappingType" name="MappingType" value="Uplift Mapping"
+                                    readonly="readonly"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="MappingDomain">Mapping Domain</label></td>
+                            <td><input type="text" id="MappingDomain" name="MappingDomain"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <br>
+                <input class="bn49" type="submit" value="Add Metadata">
+            </form>
+
+            <!-- Confirmation Section -->
+            <div id="confirmation-section"></div>
+        </div>
+        <br>
+        <br>
+        <br>
+
+        <div id=con2>
+            <div id=footer>
+                <p> Copyrights 2023 , Sarah Alzahrani salzahra@tcd.ie</p>
+            </div>
+
+            <img id="bottom" src="https://firstwebsite--sarah-alzahrani.repl.co/static/bottom.png" height="100"
+                width="750">
+        </div>
+    </div>
+</body>
+
+</html>

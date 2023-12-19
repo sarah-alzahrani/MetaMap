@@ -11,9 +11,8 @@
     max-width: 720px;
     margin: 0 auto;
   }
-    h2 {padding-top: 20px;
-       }
-  
+    h2 {padding-top: 30px;}
+
     #logo {
        float: right;
       margin:5px;
@@ -25,14 +24,14 @@
     }
     #footer{
       text-align:center
-      
+
     }
     .bn49 {
       border: 0;
       text-align: center;
       display: inline-block;
       padding: 14px;
-      width: 30%;
+      width: 15%;
       margin: 10px;
       color: #000000;
       background-color: #87CEEB;
@@ -43,47 +42,35 @@
       transition: box-shadow 200ms ease-out;
     }
 </style>
-  <title>MetaMap</title>
-
+<title>Metadata Added Successfully</title>
 
 </head>
 
   <body>
     <div id="con">
     <img id="bannner" src="https://firstwebsite--sarah-alzahrani.repl.co/static/banner.jpg" height="200" width="750" >
-    <h2>Welcome to MetaMap </h2>
-  </br>
+    <h2>Metadata Added Successfully </h2>
+
+         </br>
         <div class="square">
-    <div>
-      <img id="logo" src="https://firstwebsite--sarah-alzahrani.repl.co/static/MetaMap-3.png" >
-    </div>
-    <p id=par>
-      
-   MetaMap is a software application that allows you to annotate and reuse RML mappings in an easy and efficient manner.
-   
-    </p>
-          <a class="bn49" href="https://firstwebsite--sarah-alzahrani.repl.co/static/annotate.html">Annotate Mapping</a>
-          
-          <a class="bn49" href="/">Reuse Mapping</a>
-
-</div>
-    
+          <p>Your metadata has been successfully added to the RDF graph.</p>
+          <p>You can view or download the metadata graph:</p>
+          <p>View Metadata Graph: <a href="{{ url_for('view_rdf', rdf_data_path=rdf_data_path) }}">View</a></p>
+          <p>Download Metadata Graph: <a href="{{ url_for('download_rdf', rdf_data_path=rdf_data_path) }}">Download</a></p>
+          </div>
+     </br>
+      </br>
       </br>
 
-      </div>
-      </br>
-      </br>
-   
     <div id=con2>
              <div id=footer>
-          
         <p> Copyrights 2023 , Sarah Alzahrani salzahra@tcd.ie</p>
         </div>
-    
+
        <img id="bottom" src="https://firstwebsite--sarah-alzahrani.repl.co/static/bottom.png" height="100" width="750" >
       </div>
   </body>
 
-  
-  
+
+
 </html>

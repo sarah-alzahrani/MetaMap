@@ -11,8 +11,7 @@
     max-width: 720px;
     margin: 0 auto;
   }
-    h2 {padding-top: 20px;
-       }
+    h2 {padding-top: 30px;}
   
     #logo {
        float: right;
@@ -32,7 +31,7 @@
       text-align: center;
       display: inline-block;
       padding: 14px;
-      width: 30%;
+      width: 15%;
       margin: 10px;
       color: #000000;
       background-color: #87CEEB;
@@ -43,40 +42,39 @@
       transition: box-shadow 200ms ease-out;
     }
 </style>
-  <title>MetaMap</title>
-
+<title>MetaMap</title>
 
 </head>
 
   <body>
     <div id="con">
     <img id="bannner" src="https://firstwebsite--sarah-alzahrani.repl.co/static/banner.jpg" height="200" width="750" >
-    <h2>Welcome to MetaMap </h2>
-  </br>
+    <h2>Annotate Mapping </h2>
+  
+         </br>
+      <h4>Please upload your RML mapping file (Note: your file must be in Turtle format).</h4>
         <div class="square">
-    <div>
-      <img id="logo" src="https://firstwebsite--sarah-alzahrani.repl.co/static/MetaMap-3.png" >
-    </div>
-    <p id=par>
+  <form action ='/success' method = 'POST' enctype="multipart/form-data">     <div>
+    <label>Choose file to upload</label> 
+    <input
+      name = "file"
+      type="file"
+      id="filename"
+      accept=".ttl" />
+  </div>
+  </br>
+  <div>
+    <input class=bn49 type = "submit" value="Upload">   
+  </div>
+
+</form>
+          </div>
+     </br>
+      </br>
+      </br>
       
-   MetaMap is a software application that allows you to annotate and reuse RML mappings in an easy and efficient manner.
-   
-    </p>
-          <a class="bn49" href="https://firstwebsite--sarah-alzahrani.repl.co/static/annotate.html">Annotate Mapping</a>
-          
-          <a class="bn49" href="/">Reuse Mapping</a>
-
-</div>
-    
-      </br>
-
-      </div>
-      </br>
-      </br>
-   
     <div id=con2>
              <div id=footer>
-          
         <p> Copyrights 2023 , Sarah Alzahrani salzahra@tcd.ie</p>
         </div>
     

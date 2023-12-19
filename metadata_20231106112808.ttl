@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ns1: <http://example.com/mappings/> .
+
+ns1:subject ns1:endDate "2023-11-03" ;
+    ns1:format "<built-in function format>" ;
+    ns1:mappingDomain "histor" ;
+    ns1:mappingMethod "Automatic" ;
+    ns1:mappingType "Uplift Mapping" ;
+    ns1:startDate "2202-11-12" ;
+    ns1:toolUsed "RML" ;
+    dcterms:creator "yy" ;
+    dcterms:source "xxx" ;
+    foaf:familyName "yy" ;
+    foaf:givenName "xxx" ;
+    foaf:organization "tcd" .
+
