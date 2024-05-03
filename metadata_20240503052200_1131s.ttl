@@ -1,0 +1,35 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ns1: <http://example.com/mappings/> .
+
+ns1:subject ns1:endDate "" ;
+    ns1:mappingAlgorithm "" ;
+    ns1:mappingAssumptions "" ;
+    ns1:mappingDomain "" ;
+    ns1:mappingFormat "" ;
+    ns1:mappingMethod "Manual" ;
+    ns1:mappingName "" ;
+    ns1:mappingType "Uplift Mapping" ;
+    ns1:mappingURI "" ;
+    ns1:publisherName "" ;
+    ns1:publisherSource "" ;
+    ns1:requirement "" ;
+    ns1:risksIssues "" ;
+    ns1:startDate "" ;
+    ns1:technicalRequirement "" ;
+    ns1:testingDate "" ;
+    ns1:testingName "" ;
+    ns1:testingResult "" ;
+    ns1:testingType "" ;
+    ns1:testingURI "" ;
+    ns1:tool "" ;
+    ns1:versionDateTime "" ;
+    ns1:versionNumber "" ;
+    dcterms:creator "" ;
+    dcterms:source "" ;
+    foaf:background "" ;
+    foaf:familyName "" ;
+    foaf:givenName "" ;
+    foaf:organization "" ;
+    foaf:role "" .
+

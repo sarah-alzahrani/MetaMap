@@ -84,169 +84,387 @@
         #confirmation-section button {
             margin: 5px;
         }
+      /* Style for readonly inputs */
+      input[readonly] {
+          background-color: #f0f0f0; /* Change background color to gray */
+          color: #666666; /* Change text color to a darker shade */
+          cursor: not-allowed; /* Change cursor to indicate non-interactivity */
+      }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+      .tooltip .tooltiptext {
+          visibility: hidden;
+          width: 150px;
+          background-color: lightgray;
+          color: black;
+          text-align: center;
+          border-radius: 6px;
+          padding: 5px;
+          position: absolute;
+          z-index: 1;
+          top: 0;
+          left: 100%; /* Position the tooltip text to the right of the image */
+          margin-left: 10px; /* Adjust the margin for spacing */
+          opacity: 0;
+          transition: opacity 0.3s;
+          font-size: 13px; /* Adjust the font size */
+          font-weight: normal; /* Set the font weight to normal */
+      }
+
+        /* Show the tooltip text when you mouse over the tooltip container */
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+      }
     </style>
-    <title>Add more metadata fields</title>
+    <title>Add metadata fields</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <script>
-      $(document).ready(function () {
-          // Display the confirmation message on form submission
-          $("#metadataForm").submit(function (e) {
-              e.preventDefault();
-              showConfirmation();
+    <script>
+        $(document).ready(function () {
+            // Display the confirmation message on form submission
+            $("#metadataForm").submit(function (e) {
+                e.preventDefault();
+                showConfirmation();
+            });
+
+            // Handle the form submission after confirmation
+            $(document).on("click", "#confirmSubmit", function () {
+                submitGraph();
+            });
+
+            // Handle canceling the submission
+            $(document).on("click", "#cancelSubmit", function () {
+                $("#confirmation-section").hide();
+            });
+        });
+
+        function showConfirmation() {
+            var filledFields = getFilledFields();
+            var confirmationHtml = "<h4>Please review the metadata fields you have inserted:</h4><ul>";
+
+            for (var i = 0; i < filledFields.length; i++) {
+                confirmationHtml += "<li>" + filledFields[i].label + ": " + filledFields[i].value + "</li>";
+            }
+
+            confirmationHtml += "</ul>";
+
+            confirmationHtml += "<h4>Choose the presentation format you prefer:</h4>";
+            confirmationHtml += "<input type='radio' name='metadataFormat' value='namedGraph' checked> Named Graph";
+            confirmationHtml += "<input type='radio' name='metadataFormat' value='rdfStar' > RDF-Star";
+            confirmationHtml += "<input type='radio' name='metadataFormat' value='both' disabled> Both";
+            confirmationHtml += "<br>";
+            confirmationHtml += "<button  id='confirmSubmit'>Submit</button>";
+            confirmationHtml += "<button id='cancelSubmit'>Cancel</button>";
+
+            $("#confirmation-section").html(confirmationHtml);
+            $("#confirmation-section").show();
+        }
+
+        function submitGraph() {
+            var metadataFormat = $("input[name='metadataFormat']:checked").val();
+            var filledFields = getFilledFields();
+
+            if (metadataFormat === 'namedGraph') {
+                // Implement logic to submit as a named graph
+                $("#metadataForm")[0].submit(); // This line submits the form
+            } else if (metadataFormat === 'rdfStar') {
+                // Implement logic to embed using RDF-Star
+                alert("Embed the following data using RDF-Star:\n" + JSON.stringify(filledFields, null, 2));
+                // Optionally, you can submit the form here if needed
+            } else if (metadataFormat === 'both') {
+                // Implement logic to submit as both named graph and RDF-Star
+                $("#metadataForm")[0].submit(); // This line submits the form
+                alert("Embed the following data using RDF-Star:\n" + JSON.stringify(filledFields, null, 2));
+            }
+
+            // Reset the form or redirect to another page after submission
+            // $("#metadataForm")[0].reset();
+            $("#confirmation-section").hide();
+        }
+
+        function getFilledFields() {
+            var filledFields = [];
+
+            $(".metadata-section :input").each(function () {
+                var label = $("label[for='" + this.id + "']").text();
+                var value = $(this).val();
+
+                if (value !== "") {
+                    filledFields.push({ label: label, value: value });
+                }
+            });
+
+            return filledFields;
+        }
+
+      // JavaScript to show and hide the tooltip
+      document.addEventListener("DOMContentLoaded", function() {
+          var tooltipIcon = document.querySelector(".tooltip-icon");
+          var tooltipText = document.querySelector(".tooltiptext");
+
+          tooltipIcon.addEventListener("mouseover", function() {
+              tooltipText.style.visibility = "visible";
+              tooltipText.style.opacity = "1";
           });
 
-          // Handle the form submission after confirmation
-          $(document).on("click", "#confirmSubmit", function () {
-              submitGraph();
-          });
-
-          // Handle canceling the submission
-          $(document).on("click", "#cancelSubmit", function () {
-              $("#confirmation-section").hide();
+          tooltipIcon.addEventListener("mouseout", function() {
+              tooltipText.style.visibility = "hidden";
+              tooltipText.style.opacity = "0";
           });
       });
-
-      function showConfirmation() {
-          var filledFields = getFilledFields();
-          var confirmationHtml = "<h4>Please review the metadata fields you have inserted:</h4><ul>";
-
-          for (var i = 0; i < filledFields.length; i++) {
-              confirmationHtml += "<li>" + filledFields[i].label + ": " + filledFields[i].value + "</li>";
-          }
-
-          confirmationHtml += "</ul>";
-
-          confirmationHtml += "<h4>Choose the presentation format you prefer:</h4>";
-          confirmationHtml += "<input type='radio' name='metadataFormat' value='namedGraph' checked> Named Graph";
-          confirmationHtml += "<input type='radio' name='metadataFormat' value='rdfStar'> RDF-Star";
-          confirmationHtml += "<input type='radio' name='metadataFormat' value='both'> Both";
-          confirmationHtml += "<br>";
-          confirmationHtml += "<button  id='confirmSubmit'>Submit</button>";
-          confirmationHtml += "<button id='cancelSubmit'>Cancel</button>";
-
-          $("#confirmation-section").html(confirmationHtml);
-          $("#confirmation-section").show();
-      }
-
-      function submitGraph() {
-          var metadataFormat = $("input[name='metadataFormat']:checked").val();
-          var filledFields = getFilledFields();
-
-          if (metadataFormat === 'namedGraph') {
-              // Implement logic to submit as a named graph
-              $("#metadataForm")[0].submit(); // This line submits the form
-          } else if (metadataFormat === 'rdfStar') {
-              // Implement logic to embed using RDF-Star
-              alert("Embed the following data using RDF-Star:\n" + JSON.stringify(filledFields, null, 2));
-              // Optionally, you can submit the form here if needed
-          } else if (metadataFormat === 'both') {
-              // Implement logic to submit as both named graph and RDF-Star
-              $("#metadataForm")[0].submit(); // This line submits the form
-              alert("Embed the following data using RDF-Star:\n" + JSON.stringify(filledFields, null, 2));
-          }
-
-          // Reset the form or redirect to another page after submission
-          // $("#metadataForm")[0].reset();
-          $("#confirmation-section").hide();
-      }
-
-      function getFilledFields() {
-          var filledFields = [];
-
-          $(".metadata-section :input").each(function () {
-              var label = $("label[for='" + this.id + "']").text();
-              var value = $(this).val();
-
-              if (value !== "") {
-                  filledFields.push({ label: label, value: value });
-              }
-          });
-
-          return filledFields;
-      }
   </script>
 
 </head>
 
 <body>
     <div id="con">
-        <img id="bannner" src="https://firstwebsite--sarah-alzahrani.repl.co/static/banner.jpg" height="200"
+        <img id="bannner" src="/static/banner.jpg" height="200"
             width="750">
-        <h2>Add More metadata fields</h2>
-        <br>
+        <h2>Add Metadata </h2>
         <div class="square">
             <form action="/submit_metadata" method="post" id="metadataForm">
                 <input type="hidden" name="file_name" value="{{ file_name }}">
                 <input type="hidden" name="uploaded_file_name" value="{{ uploaded_file_name }}">
                 <input type="hidden" name="reference_formulation" value="{{ reference_formulation }}">
+               <p style="color: darkred;"> Important Note: Gray disabled fields are not required for this experimental scenario; they exist to give participants an understanding of the entire metadata model designed for this tool.</p>
+
 
                 <!-- Stakeholder Metadata Section -->
                 <div class="metadata-section">
-                    <h4>Stakeholder Metadata</h4>
+                  <h4>Stakeholder <span class="tooltip-icon" title=""></span>
+                      <div class="tooltip">
+                          <img src="/static/tip.png" alt="Tooltip Icon" class="tooltip-icon">
+                          <span class="tooltiptext">This section contains metadata about stakeholders involved in the mapping process. It includes those who have contributed to its development, such as knowledge engineers and domain experts.</span>
+                      </div>
+                  </h4>
+
                     <table>
                         <tr>
+                            <td><label for="URI">URI</label></td>
+                            <td><input type="text" id="URI" name="URI" readonly></td>
+                        </tr>
+                        <tr>
                             <td><label for="fname">Stakeholder's Human Readable Name (first name)</label></td>
-                            <td><input type="text" id="fname" name="fname"></td>
+                            <td><input type="text" id="fname" name="fname" readonly></td>
                         </tr>
                         <tr>
                             <td><label for="lname">Stakeholder's Human Readable Name (last name)</label></td>
-                            <td><input type="text" id="lname" name="lname"></td>
+                            <td><input type="text" id="lname" name="lname" readonly></td>
+                        </tr>
+                        <tr>
+                            <td><label for="background">Background</label></td>
+                            <td><input type="text" id="background" name="background" readonly></td>
+                        </tr>
+                        <tr>
+                            <td><label for="role">Role</label></td>
+                            <td><input type="text" id="role" name="role" readonly></td>
                         </tr>
                         <tr>
                             <td><label for="organization">Stakeholder's organization</label></td>
-                            <td><input type="text" id="organization" name="organization"></td>
+                            <td><input type="text" id="organization" name="organization" readonly></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Purpose of the Mapping Metadata Section -->
+                <div class="metadata-section">
+                    <h4>Purpose of the Mapping <div class="tooltip">
+                        <img src="/static/tip.png" alt="Tooltip Icon" class="tooltip-icon">
+                        <span class="tooltiptext">This section contains metadata related to the purpose of the mapping project</span>
+                    </div></h4>
+                    <table>
+                        <tr>
+                            <td><label for="requirement">Requirement</label></td>
+                            <td><input type="text" id="requirement" name="requirement"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="mappingType">Type of Mapping</label></td>
+                            <td>
+                                <select name="mappingType" id="mappingType">
+                                    <option value="Uplift Mapping">Uplift Mapping</option>
+                                    <option value="Interlinking">Interlinking</option>
+                                    <option value="Ontologies Alignment">Ontologies Alignment</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="mappingDomain">Mapping Domain (Medical, Educational ...etc)</label></td>
+                            <td><input type="text" id="mappingDomain" name="mappingDomain"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="mappingAssumptions">Mapping Assumptions</label></td>
+                            <td><input type="text" id="mappingAssumptions" name="mappingAssumptions" readonly></td>
+                        </tr>
+                        <tr>
+                            <td><label for="technicalRequirement">Technical Requirement</label></td>
+                            <td><input type="text" id="technicalRequirement" name="technicalRequirement" readonly></td>
+                        </tr>
+                        <tr>
+                            <td><label for="risksIssues">Risks or Issues</label></td>
+                            <td><input type="text" id="risksIssues" name="risksIssues" readonly></td>
                         </tr>
                     </table>
                 </div>
 
                 <!-- Input File Metadata Section -->
                 <div class="metadata-section">
-                    <h4>Input file Metadata (Mapped File)</h4>
+                    <h4>Input File Metadata (Mapped File) <div class="tooltip">
+                        <img src="/static/tip.png" alt="Tooltip Icon" class="tooltip-icon">
+                        <span class="tooltiptext">This section focuses on metadata designated to describe the data file utilized as input for the mapping project. (In the case of ontology mapping, inputs would be ontologies, datasets or entities for the interlinking type of mapping, and any source of data for uplift mapping)</span>
+                    </div></h4>
                     <table>
+                      <tr>
+                          <td><label for="InputURI">Input URI </label></td>
+                          <td><input type="text" id="InputURI" name="InputURI"></td>
+                      </tr>
+                      <tr>
+                          <td><label for="InputCreator">Input File Creator </label></td>
+                          <td><input type="text" id="InputSource" name="InputSource" readonly></td>
+                      </tr>
                         <tr>
-                            <td><label for="InputURI">Input URI </label></td>
-                            <td><input type="text" id="InputURI" name="InputURI"></td>
+                            <td><label for="fileName">File Name</label></td>
+                            <td><input type="text" id="fileName" name="fileName" readonly></td>
                         </tr>
                         <tr>
-                            <td><label for="InputCreator">Input Creator </label></td>
-                            <td><input type="text" id="InputSource" name="InputSource"></td>
+                            <td><label for="fileSource">File Source</label></td>
+                            <td><input type="text" id="fileSource" name="fileSource" readonly></td>
+                        </tr>
+                        <tr>
+                            <td><label for="fileType">File Type (eg: ontology , RDF dataset ..etc) </label></td>
+                            <td><input type="text" id="fileType" name="fileType" readonly></td>
+                        </tr>
+                        <tr>
+                            <td><label for="fileFormat">File Format (eg: csv, xml ..etc)</label></td>
+                            <td><input type="text" id="fileFormat" name="fileFormat"></td>
+                        </tr>
+                    </table>
+                </div>
+            
+                <!-- Design of the Mapping Metadata Section -->
+                <div class="metadata-section">
+                    <h4>Design of the Mapping<div class="tooltip">
+                        <img src="/static/tip.png" alt="Tooltip Icon" class="tooltip-icon">
+                        <span class="tooltiptext">  This section contains metadata aimed at describing the design process of the mapping. Throughout this stage, decisions are made regarding the potential reuse of existing mappings or the necessity of developing new ones.</span>
+                    </div></h4>
+                    <table>
+                        <tr>
+                            <td><label for="finalDesignDecisions">Final Design Decisions (create new mapping, reuse existing mapping, integrate multiple mapping ..etc)</label></td>
+                            <td><input type="text" id="finalDesignDecisions" name="finalDesignDecisions"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="designDecisionJustification">Design Decision Justification</label></td>
+                            <td><input type="text" id="designDecisionJustification" name="designDecisionJustification" readonly></td>
+                        </tr>
+                        <tr>
+                            <td><label for="qualityMetrics">Quality Metrics (metrics to consider during the development)</label></td>
+                            <td><input type="text" id="qualityMetrics" name="qualityMetrics"></td>
                         </tr>
                     </table>
                 </div>
 
                 <!-- Mapping Metadata Section -->
                 <div class="metadata-section">
-                    <h4>Mapping Metadata</h4>
+                    <h4>Mapping Development <div class="tooltip">
+                        <img src="/static/tip.png" alt="Tooltip Icon" class="tooltip-icon">
+                        <span class="tooltiptext">This section contains metadata aimed at describing the development process of a mapping.</span>
+                    </div></h4>
+                    <table>
+                      <tr>
+                          <td><label for="StartDate"> Development starting date</label></td>
+                          <td><input type="date" id="StartDate" name="StartDate"></td>
+                      </tr>
+                      <tr>
+                          <td><label for="EndDate"> Development End date</label></td>
+                          <td><input type="date" id="EndDate" name="EndDate"></td>
+                      </tr>
+                      <tr>
+                          <td><label for="Tool">Tool used</label></td>
+                          <td><input type="text" id="Tool" name="Tool" readonly></td>
+                      </tr>
+                      <tr>
+                          <td><label for="MappingMethod">Mapping Method</label></td>
+                          <td>
+                              <select name="MappingMethod" id="MappingMethod">
+                                  <option value="Manual">Manual</option>
+                                  <option value="Automatic">Automatic (using tool)</option>
+                              </select>
+                          </td>
+                      </tr>
+                        <tr>
+                            <td><label for="mappingURI">URI</label></td>
+                            <td><input type="text" id="mappingURI" name="mappingURI"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="mappingName">Name</label></td>
+                            <td><input type="text" id="mappingName" name="mappingName" readonly></td>
+                        </tr>
+                        <tr>
+                            <td><label for="mappingAlgorithm">Mapping Algorithm</label></td>
+                            <td><input type="text" id="mappingAlgorithm" name="mappingAlgorithm" readonly></td>
+                        </tr>
+                        <tr>
+                            <td><label for="mappingFormat">File Format</label></td>
+                            <td><input type="text" id="mappingFormat" name="mappingFormat"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Testing of the Mapping Metadata Section -->
+                <div class="metadata-section">
+                    <h4>Testing of the Mapping <div class="tooltip">
+                        <img src="/static/tip.png" alt="Tooltip Icon" class="tooltip-icon">
+                        <span class="tooltiptext">This section contains metadata aimed at describing the testing processes performed during the mapping project.</span>
+                    </div></h4>
                     <table>
                         <tr>
-                            <td><label for="StartDate"> Development starting date</label></td>
-                            <td><input type="date" id="StartDate" name="StartDate"></td>
+                            <td><label for="testingURI">URI</label></td>
+                            <td><input type="text" id="testingURI" name="testingURI" readonly></td>
                         </tr>
                         <tr>
-                            <td><label for="EndDate"> Development End date</label></td>
-                            <td><input type="date" id="EndDate" name="EndDate"></td>
+                            <td><label for="testingName">Name</label></td>
+                            <td><input type="text" id="testingName" name="testingName" readonly></td>
                         </tr>
                         <tr>
-                            <td><label for="Tool">Tool used</label></td>
-                            <td><input type="text" id="Tool" name="Tool"></td>
+                            <td><label for="testingType">Testing Type (eg: Validation, Verification, Quality testing ..etc.)</label></td>
+                            <td><input type="text" id="testingType" name="testingType"></td>
                         </tr>
                         <tr>
-                            <td><label for="MappingMethod">Mapping Method</label></td>
-                            <td>
-                                <select name="MappingMethod" id="MappingMethod">
-                                    <option value="Manual">Manual</option>
-                                    <option value="Automatic">Automatic (using tool)</option>
-                                </select>
-                            </td>
+                            <td><label for="testingDate">Date</label></td>
+                            <td><input type="date" id="testingDate" name="testingDate"></td>
                         </tr>
                         <tr>
-                            <td><label for="MappingType">Mapping Type</label></td>
-                            <td><input type="text" id="MappingType" name="MappingType" value="Uplift Mapping"
-                                    readonly="readonly"></td>
+                            <td><label for="testingResult">Testing Result</label></td>
+                            <td><input type="text" id="testingResult" name="testingResult"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Maintenance of the Mapping Metadata Section -->
+                <div class="metadata-section">
+                    <h4>Maintenance of the Mapping <div class="tooltip">
+                        <img src="/static/tip.png" alt="Tooltip Icon" class="tooltip-icon">
+                        <span class="tooltiptext">This section contains metadata aimed at describing the management and maintenance processes of mapping.</span>
+                    </div></h4>
+                    <table>
+                        <tr>
+                            <td><label for="publisherName">Publisher Name</label></td>
+                            <td><input type="text" id="publisherName" name="publisherName"></td>
                         </tr>
                         <tr>
-                            <td><label for="MappingDomain">Mapping Domain</label></td>
-                            <td><input type="text" id="MappingDomain" name="MappingDomain"></td>
+                            <td><label for="publisherSource">Publisher Source</label></td>
+                            <td><input type="text" id="publisherSource" name="publisherSource"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="versionNumber">Version Number</label></td>
+                            <td><input type="text" id="versionNumber" name="versionNumber"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="versionDateTime">Version Date</label></td>
+                            <td><input type="date" id="versionDateTime" name="versionDateTime"></td>
                         </tr>
                     </table>
                 </div>
@@ -264,10 +482,10 @@
 
         <div id=con2>
             <div id=footer>
-                <p> Copyrights 2023 , Sarah Alzahrani salzahra@tcd.ie</p>
+                <p> Copyrights 2024 , Sarah Alzahrani salzahra@tcd.ie</p>
             </div>
 
-            <img id="bottom" src="https://firstwebsite--sarah-alzahrani.repl.co/static/bottom.png" height="100"
+            <img id="bottom" src="/static/bottom.png" height="100"
                 width="750">
         </div>
     </div>
