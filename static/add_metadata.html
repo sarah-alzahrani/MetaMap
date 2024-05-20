@@ -144,7 +144,7 @@
 
         function showConfirmation() {
             var filledFields = getFilledFields();
-            var confirmationHtml = "<h4>Please review the metadata fields you have inserted:</h4><ul>";
+            var confirmationHtml = "<h4>Please review the metadata fields you have inserted then click submit:</h4><ul>";
 
             for (var i = 0; i < filledFields.length; i++) {
                 confirmationHtml += "<li>" + filledFields[i].label + ": " + filledFields[i].value + "</li>";
@@ -152,11 +152,6 @@
 
             confirmationHtml += "</ul>";
 
-            confirmationHtml += "<h4>Choose the presentation format you prefer:</h4>";
-            confirmationHtml += "<input type='radio' name='metadataFormat' value='namedGraph' checked> Named Graph";
-            confirmationHtml += "<input type='radio' name='metadataFormat' value='rdfStar' > RDF-Star";
-            confirmationHtml += "<input type='radio' name='metadataFormat' value='both' disabled> Both";
-            confirmationHtml += "<br>";
             confirmationHtml += "<button  id='confirmSubmit'>Submit</button>";
             confirmationHtml += "<button id='cancelSubmit'>Cancel</button>";
 
@@ -165,21 +160,10 @@
         }
 
         function submitGraph() {
-            var metadataFormat = $("input[name='metadataFormat']:checked").val();
             var filledFields = getFilledFields();
 
-            if (metadataFormat === 'namedGraph') {
-                // Implement logic to submit as a named graph
-                $("#metadataForm")[0].submit(); // This line submits the form
-            } else if (metadataFormat === 'rdfStar') {
-                // Implement logic to embed using RDF-Star
-                alert("Embed the following data using RDF-Star:\n" + JSON.stringify(filledFields, null, 2));
-                // Optionally, you can submit the form here if needed
-            } else if (metadataFormat === 'both') {
-                // Implement logic to submit as both named graph and RDF-Star
-                $("#metadataForm")[0].submit(); // This line submits the form
-                alert("Embed the following data using RDF-Star:\n" + JSON.stringify(filledFields, null, 2));
-            }
+            // Implement logic to submit the form
+            $("#metadataForm")[0].submit(); // This line submits the form
 
             // Reset the form or redirect to another page after submission
             // $("#metadataForm")[0].reset();
@@ -201,22 +185,22 @@
             return filledFields;
         }
 
-      // JavaScript to show and hide the tooltip
-      document.addEventListener("DOMContentLoaded", function() {
-          var tooltipIcon = document.querySelector(".tooltip-icon");
-          var tooltipText = document.querySelector(".tooltiptext");
+        // JavaScript to show and hide the tooltip
+        document.addEventListener("DOMContentLoaded", function () {
+            var tooltipIcon = document.querySelector(".tooltip-icon");
+            var tooltipText = document.querySelector(".tooltiptext");
 
-          tooltipIcon.addEventListener("mouseover", function() {
-              tooltipText.style.visibility = "visible";
-              tooltipText.style.opacity = "1";
-          });
+            tooltipIcon.addEventListener("mouseover", function () {
+                tooltipText.style.visibility = "visible";
+                tooltipText.style.opacity = "1";
+            });
 
-          tooltipIcon.addEventListener("mouseout", function() {
-              tooltipText.style.visibility = "hidden";
-              tooltipText.style.opacity = "0";
-          });
-      });
-  </script>
+            tooltipIcon.addEventListener("mouseout", function () {
+                tooltipText.style.visibility = "hidden";
+                tooltipText.style.opacity = "0";
+            });
+        });
+    </script>
 
 </head>
 
@@ -228,7 +212,7 @@
         <div class="square">
             <form action="/submit_metadata" method="post" id="metadataForm">
                 <input type="hidden" name="file_name" value="{{ file_name }}">
-                <input type="hidden" name="uploaded_file_name" value="{{ uploaded_file_name }}">
+                <input type="hidden" id="uploaded_file_name" value="{{ uploaded_file_name }}" name="uploaded_file_name" value="{{ uploaded_file_name }}">
                 <input type="hidden" name="reference_formulation" value="{{ reference_formulation }}">
                <p style="color: darkred;"> Important Note: Gray disabled fields are not required for this experimental scenario; they exist to give participants an understanding of the entire metadata model designed for this tool.</p>
 
@@ -278,13 +262,14 @@
                     </div></h4>
                     <table>
                         <tr>
-                            <td><label for="requirement">Requirement</label></td>
+                            <td><label for="requirement">Main purpose</label></td>
                             <td><input type="text" id="requirement" name="requirement"></td>
                         </tr>
                         <tr>
                             <td><label for="mappingType">Type of Mapping</label></td>
                             <td>
                                 <select name="mappingType" id="mappingType">
+                                     <option value="">Select</option>
                                     <option value="Uplift Mapping">Uplift Mapping</option>
                                     <option value="Interlinking">Interlinking</option>
                                     <option value="Ontologies Alignment">Ontologies Alignment</option>
@@ -352,8 +337,18 @@
                     </div></h4>
                     <table>
                         <tr>
-                            <td><label for="finalDesignDecisions">Final Design Decisions (create new mapping, reuse existing mapping, integrate multiple mapping ..etc)</label></td>
-                            <td><input type="text" id="finalDesignDecisions" name="finalDesignDecisions"></td>
+                            <td><label for="finalDesignDecisions">Final Design Decisions</label></td>
+                            <td>
+                                <select name="finalDesignDecisions" id="finalDesignDecisions">
+                                     <option value="">Select</option>
+                                    <option value="create new mapping">Create new mapping</option>
+                                    <option value="reuse existing mapping">Reuse existing mapping</option>
+                                    <option value="Ontologies Alignment">Integrate multiple mapping </option>
+                                    <option value="Other">Other</option>
+
+                                </select>
+                            </td>
+
                         </tr>
                         <tr>
                             <td><label for="designDecisionJustification">Design Decision Justification</label></td>
@@ -389,17 +384,18 @@
                           <td><label for="MappingMethod">Mapping Method</label></td>
                           <td>
                               <select name="MappingMethod" id="MappingMethod">
+                                   <option value=''>Select</option>
                                   <option value="Manual">Manual</option>
                                   <option value="Automatic">Automatic (using tool)</option>
                               </select>
                           </td>
                       </tr>
                         <tr>
-                            <td><label for="mappingURI">URI</label></td>
+                            <td><label for="mappingURI">URI of the resulting mapping</label></td>
                             <td><input type="text" id="mappingURI" name="mappingURI"></td>
                         </tr>
                         <tr>
-                            <td><label for="mappingName">Name</label></td>
+                            <td><label for="mappingName">Mapping Name</label></td>
                             <td><input type="text" id="mappingName" name="mappingName" readonly></td>
                         </tr>
                         <tr>
@@ -407,8 +403,8 @@
                             <td><input type="text" id="mappingAlgorithm" name="mappingAlgorithm" readonly></td>
                         </tr>
                         <tr>
-                            <td><label for="mappingFormat">File Format</label></td>
-                            <td><input type="text" id="mappingFormat" name="mappingFormat"></td>
+                            <td><label for="mappingFormat">Mapping File Format</label></td>
+                            <td><input type="text" id="mappingFormat" name="mappingFormat" readonly></td>
                         </tr>
                     </table>
                 </div>
@@ -429,8 +425,18 @@
                             <td><input type="text" id="testingName" name="testingName" readonly></td>
                         </tr>
                         <tr>
-                            <td><label for="testingType">Testing Type (eg: Validation, Verification, Quality testing ..etc.)</label></td>
-                            <td><input type="text" id="testingType" name="testingType"></td>
+                            <td><label for="testingType">Testing Type</label></td>
+                            <td>
+                                <select name="testingType" id="testingType">
+                                    <option value="" >Select</option>
+                                    <option value="Validation">Validation</option>
+                                    <option value="Verification">Verification</option>
+                                    <option value="Quality testing ">Quality testing </option>
+                                    <option value="Other">Other</option>
+
+                                </select>
+                            </td>
+
                         </tr>
                         <tr>
                             <td><label for="testingDate">Date</label></td>
@@ -455,7 +461,7 @@
                             <td><input type="text" id="publisherName" name="publisherName"></td>
                         </tr>
                         <tr>
-                            <td><label for="publisherSource">Publisher Source</label></td>
+                            <td><label for="publisherSource">Publisher URL</label></td>
                             <td><input type="text" id="publisherSource" name="publisherSource"></td>
                         </tr>
                         <tr>
@@ -468,7 +474,6 @@
                         </tr>
                     </table>
                 </div>
-
                 <br>
                 <input class="bn49" type="submit" value="Add Metadata">
             </form>

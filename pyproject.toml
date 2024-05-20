@@ -8,6 +8,7 @@ authors = ["Your Name <you@example.com>"]
 python = ">=3.10.0,<3.11"
 Flask = "^2.3.3"
 rdflib = "^7.0.0"
+pyoxigraph = "^0.3.22"
 
 [tool.pyright]
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md

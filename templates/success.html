@@ -41,6 +41,16 @@
       text-decoration: none;
       transition: box-shadow 200ms ease-out;
     }
+    table {
+      border-collapse: separate;
+      border-spacing: 10px;
+      background-color: #f0f0f0; /* Light gray background */
+    }
+
+    th, td {
+      border: 1px solid #dddddd; /* Border color */
+      padding: 10px; /* Padding inside cells */
+    }
 </style>
 <title>Metadata Added Successfully</title>
 
@@ -53,18 +63,35 @@
 
          </br>
         <div class="square">
-          <p>Your metadata has been successfully added to the RDF graph.</p>
-          <p>You can view or download the metadata graph:</p>
-          <p>View Metadata Graph: <a href="{{ url_for('view_rdf', rdf_data_path=rdf_data_path) }}">View</a></p>
-          <p>Download Metadata Graph: <a href="{{ url_for('download_rdf', rdf_data_path=rdf_data_path) }}">Download</a></p>
+          <p>Your metadata has been successfully added. You can view or download the result using the options provided in the table below.</p>
+          <table>
+            <tr>
+              <th>Metadata Representation</th>
+              <th>View</th>
+              <th>Download</th>
+            </tr>
+            <tr>
+              <td>Named Graph</td>
+              <td><a href="{{ url_for('view_metadata', rdf_data_path=rdf_data_path_named_graph) }}">View</a></td>
+              <td><a href="{{ url_for('download_metadata', rdf_data_path=rdf_data_path_named_graph) }}">Download</a></td>
+            </tr>
+            <tr>
+              <td>RDF-Star</td>
+              <td><a href="{{ url_for('view_metadata', rdf_star_data_path=rdf_data_path_rdf_star) }}">View</a></td>
+              <td><a href="{{ url_for('download_metadata', rdf_star_data_path=rdf_data_path_rdf_star) }}">Download</a></td>
+            </tr>
+          </table>
           </div>
+
+    
      </br>
       </br>
 
+    <h4> Your insights from using MetaSEMAP are crucial for refining its usability. Please take a moment to share your feedback by completing the following questionnaire</h4>
       <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdRhBPxzCQwrQyi3zmMPdP-EeON7zqFAG5tR6aoSd0UnXuMXQ/viewform?embedded=true" width="640" height="4164" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
       
       </br>
-
+      </div>
     <div id=con2>
              <div id=footer>
         <p> Copyrights 2024 , Sarah Alzahrani salzahra@tcd.ie</p>
