@@ -1,91 +1,121 @@
-</body>
-</html>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiment Scenario</title>
   <style>
-  #con {
-    max-width: 720px;
-    margin: 0 auto;
-  }
-
+    #con {
+      max-width: 720px;
+      margin: 0 auto;
+    }
     #con2 {
-    max-width: 720px;
-    margin: 0 auto;
-  }
-    h2 {padding-top: 30px;}
-
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    h2 {
+      padding-top: 30px;
+    }
     #logo {
-       float: right;
+      float: right;
       margin:5px;
     }
-      #par {
+    #par {
       text-align: justify;
       font-size: 20px;
-        font: 
     }
-    #footer{
-      text-align:center
-
+    #footer {
+      text-align: center;
     }
-     button {
-  border: 0;
-  text-align: center;
-  display: inline-block;
-  padding: 14px;
-  width: 10%;
-  margin: 10px;
-  color: #000000;
-  background-color: #87CEEB;
-  border-radius: 10px;
-  font-family: "proxima-nova-soft", sans-serif;
-  font-weight: 400;
-  text-decoration: none;
-  transition: box-shadow 200ms ease-out;
-}   
-</style>
-   <title> Experiment Scenario </title>
+    button {
+      border: 0;
+      text-align: center;
+      display: inline-block;
+      padding: 14px;
+      width: 10%;
+      margin: 10px;
+      color: #000000;
+      background-color: #87CEEB;
+      border-radius: 10px;
+      font-family: "proxima-nova-soft", sans-serif;
+      font-weight: 400;
+      text-decoration: none;
+      transition: box-shadow 200ms ease-out;
+    }
+  </style>
 </head>
-
-  <body>
-    <div id="con">
-    <img id="bannner" src="/static/banner.jpg" height="200" width="750" >
-    <h3>Experiment Scenario </h3>
-
-         </br>
-
-        <div class="square">
-          <p id="par">
-          <p>
-            In accordance with the project requirement to seamlessly merge diverse datasets, Research Integration Solutions Inc. spearheads efforts in pioneering research data integration within the educational domain. The main purpose is to integrate data from different sources to facilitate comprehensive analysis and insights. With a focus on clarity and efficiency, documentation of metadata for the mapping project is undertaken. The data source, <span style="color: blue;">http://researchdata.csv</span>, which is one of the CSV files being collected from various departments, forms the foundation of integration work.
-          </p>
-          <p>
-            Under the guidance of the researchers, uplift mapping is being created. Notably, the decision was made to develop a new mapping from scratch. Quality metrics from <span style="color: blue;">http://example.org/research_quality_metrics</span> was used, the mapping is developed from February 15 to March 31, 2024, using automated RML-based transformations to standardize data into RDF format. The resulting mapping can be found at <span style="color: blue;">http://researchdataintegration.org/uplift_mapping_v1.0</span>.
-          </p>
-          <p>
-            After Validation testing completed by April 15, 2024, successful results have been achieved, validating the accuracy of the RDF output.
-          </p>
-          <p>
-            Excitingly, Research Integration Solutions Inc. releases Version 1.0 of the uplift mapping on April 20, 2024. Published versions of the mapping can be found at the website of the publisher, which is: <span style="color: blue;">http://researchintegrationsolutions.org/uplift_mapping_publisher</span>.
-          </p>
-
-          </div>
-    
-       </br>
-      <p style="color: darkred;"> Note: The links provided in the scenario are not real and are intended for the purpose of this experiment</p>
-      </br>
-      </br>
-      </br>
-    <div id=con2>
-             <div id=footer>
-        <p> Copyrights 2024 , Sarah Alzahrani salzahra@tcd.ie</p>
-        </div>
-
-       <img id="bottom" src="/static/bottom.png" height="100" width="750" >
+<body>
+  <div id="con">
+    <img id="banner" src="/static/banner.jpg" height="200" width="750">
+    <h3>Experiment Scenario</h3>
+    <div class="square">
+      <div id="scenario-content">
+        <!-- Scenario content will be injected here -->
       </div>
-  </body>
+    </div>
+    <p style="color: darkred;">Note: The links provided in the scenario are not real and are intended for the purpose of this experiment</p>
+    <div id="con2">
+      <div id="footer">
+        <p>Copyrights 2024, Sarah Alzahrani salzahra@tcd.ie</p>
+      </div>
+      <img id="bottom" src="/static/bottom.png" height="100" width="750">
+    </div>
+  </div>
 
+  <script>
+    const scenarios = [
+      {
+        title: "Scenario 1: Uplift Mapping for Irish Counties in the Virtual Record Treasury of Ireland",
+        content: `
+          <p>The Virtual Record Treasury of Ireland (VRTI) has undertaken an uplift mapping project to convert county data from a CSV file (data_county.csv) into RDF triples, creating structured, web-accessible data. The project took place from January 1 to February 28, 2024.</p>
+          <p>The CSV file contains details such as county identifiers, names, and geographic information. Using RML, each county is assigned a unique URI, and relationships like centroid locations, bounding boxes, and province associations are mapped. For instance, counties are linked to their respective provinces (e.g., Munster or Leinster) and classified as present-day counties.</p>
+          <p>The transformation enriches the VRTI Knowledge Graph, providing searchable, geospatial data on Irish counties. This mapping allows researchers to explore county records with enhanced semantic and geographic context.</p>
+          <p>Access the mapping at: <span style="color: blue;">http://virtualrecordtreasury.ie/uplift_mapping_v1.0</span>.</p>
+        `
+      },
+      {
+        title: "Scenario 2: Ontology Alignment for Person Class in the Virtual Record Treasury of Ireland",
+        content: `
+          <p>As part of the Virtual Record Treasury of Ireland (VRTI) project, the ontology alignment process focuses on ensuring that data about individuals in the VRTI Knowledge Graph can seamlessly integrate with external datasets. This scenario describes the alignment of the class E21_Person from the CIDOC CRM ontology with foaf:Person from the FOAF ontology.</p>
+          <p>Between March 1 and March 30, 2024, the alignment process mapped individuals represented in the VRTI dataset (e.g., historical figures, citizens mentioned in archival records) to the FOAF ontology. This ensures that both datasets understand these representations as the same concept, allowing easier data integration across different systems.</p>
+          <p>The RDF/XML alignment can be found at: <span style="color: blue;">http://virtualrecordtreasury.ie/person_alignment_v1.0</span>, allowing integrated search and discovery of people across various datasets.</p>
+        `
+      },
+      {
+        title: "Scenario 3: Historical Figure Interlinking with Wikidata",
+        content: `
+          <p>This scenario highlights the interlinking process between records of Irish historical figures in the VRTI Knowledge Graph and Wikidata entries. The goal is to enrich VRTI's archival records with biographical and contextual information from Wikidata, providing a more comprehensive historical overview.</p>
+          <p>From April 1 to April 20, 2024, the project focused on interlinking individuals stored in VRTI’s records (such as Alfred Betham) to their corresponding Wikidata profiles. Each individual in the VRTI dataset is represented by a unique URI, such as:</p>
+          <p>VRTI: Alfred Betham - <span style="color: blue;">https://kb.virtualtreasury.ie/person/Betham_Alfred_C19_a</span><br>Wikidata: Alfred Betham - <span style="color: blue;">http://www.wikidata.org/entity/Q16016808</span></p>
+          <p>By creating <code>owl:sameAs</code> links between these URIs, researchers and users can access richer historical profiles from both data sources. The interlinked dataset will be accessible at: <span style="color: blue;">http://virtualrecordtreasury.ie/interlinking_v1.0</span>.</p>
+        `
+      }
+    ];
 
+    function getScenarioParam() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const scenarioIndex = parseInt(urlParams.get('scenario'), 10);
+      if (isNaN(scenarioIndex) || scenarioIndex < 0 || scenarioIndex >= scenarios.length) {
+        return null;
+      }
+      return scenarioIndex;
+    }
 
+    function displayScenario() {
+      const scenarioIndex = getScenarioParam();
+      const scenarioContent = scenarioIndex !== null ? scenarios[scenarioIndex] : null;
+
+      if (scenarioContent) {
+        document.getElementById('scenario-content').innerHTML = `
+          <h3>${scenarioContent.title}</h3>
+          ${scenarioContent.content}
+        `;
+      } else {
+        document.getElementById('scenario-content').innerHTML = "<p>Scenario not found. Please select a valid scenario.</p>";
+      }
+    }
+
+    window.onload = displayScenario;
+  </script>
+</body>
 </html>

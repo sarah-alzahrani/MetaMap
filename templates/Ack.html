@@ -53,19 +53,20 @@
   <body>
     <div id="con">
     <img id="bannner" src="/static/banner.jpg" height="200" width="750" >
-    <h2>RDF File content and extracted metadata </h2>
+    <h2>Your uploaded RDF File name and content  </h2>
 
          </br>
 
         <div class="square">
-          <h3>Extracted Metadata:</h3>
-          <p><strong>Mapping file name:</strong> {{ uploaded_file_name}}</p>
-          <p><strong>Input file name:</strong> {{file_name }}</p>
-          <p><strong>Input file format:</strong> {{ reference_formulation }}</p>
-          
+        <!--  <h3>Extracted Metadata:</h3> --> 
+  
+       <!-- <p><strong>Input file name:</strong> {{file_name }}</p> 
+       <p><strong>Input file format:</strong> {{ reference_formulation }}</p> --> 
           </br>
           <a class="bn49" href="/static/add_metadata.html"> Click here to add metadata</a>
           </br>
+          <p><strong>Mapping file name:</strong> {{ uploaded_file_name}}</p>
+
           </br>
           <h3>RDF File content:</h3>
         

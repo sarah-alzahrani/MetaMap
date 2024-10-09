@@ -1,0 +1,35 @@
+@prefix dcmi: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix metag: <http://example.com/metag/> .
+
+metag:subject metag:endDate "" ;
+    metag:mappingAlgorithm "" ;
+    metag:mappingAssumptions "" ;
+    metag:mappingDomain "" ;
+    metag:mappingFormat "" ;
+    metag:mappingMethod "" ;
+    metag:mappingName "" ;
+    metag:mappingType "Uplift Mapping" ;
+    metag:mappingURI "" ;
+    metag:publisherName "" ;
+    metag:publisherSource "" ;
+    metag:purpose "" ;
+    metag:risksIssues "" ;
+    metag:startDate "" ;
+    metag:technicalRequirement "" ;
+    metag:testingDate "" ;
+    metag:testingName "" ;
+    metag:testingResult "" ;
+    metag:testingType "" ;
+    metag:testingURI "" ;
+    metag:tool "" ;
+    metag:versionDateTime "" ;
+    metag:versionNumber "" ;
+    dcmi:creator "" ;
+    dcmi:source "" ;
+    foaf:background "" ;
+    foaf:familyName "" ;
+    foaf:givenName "" ;
+    foaf:organization "" ;
+    foaf:role "" .
+
